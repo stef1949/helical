@@ -10,7 +10,7 @@ The Helical package uses **PyTorch 2.6.0**, which supports:
 - **CUDA 12.1**
 - **CUDA 12.4**
 
-**Important Note**: CUDA 13.0 does not exist. If you see references to "CUDA 13.0", this is likely a misunderstanding or typo. The latest CUDA versions are in the 12.x series.
+**Important Note**: PyTorch 2.6.0 does not support CUDA 13.0. If you have CUDA 13.0 installed, you will need to either use CUDA 12.1 or 12.4, or wait for a PyTorch version that supports CUDA 13.0. Multiple CUDA versions can coexist on the same system.
 
 ## Checking Your CUDA Version
 
@@ -87,6 +87,24 @@ Replace `linux_x86_64` with your platform:
 - Windows: `win_amd64`
 
 ## Troubleshooting
+
+### CUDA 13.0 Compatibility
+
+**Issue**: PyTorch 2.6.0 does not support CUDA 13.0 yet.
+
+**Solutions**:
+1. **Use CUDA 12.x**: Install CUDA 12.1 or 12.4 alongside CUDA 13.0. You can have multiple CUDA versions installed and select which one to use via environment variables.
+
+2. **Set CUDA path**: If you have multiple CUDA versions, ensure the CUDA 12.x version is in your PATH:
+   ```bash
+   export CUDA_HOME=/usr/local/cuda-12.4
+   export PATH=$CUDA_HOME/bin:$PATH
+   export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
+   ```
+
+3. **Upgrade PyTorch**: Wait for a newer PyTorch version that supports CUDA 13.0 and update the package dependencies accordingly.
+
+4. **Check PyTorch compatibility**: Visit https://pytorch.org/get-started/locally/ for the latest information on CUDA support.
 
 ### "CUDA out of memory" errors
 

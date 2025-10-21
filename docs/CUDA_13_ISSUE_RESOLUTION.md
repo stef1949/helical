@@ -1,36 +1,31 @@
-# CUDA 13.0 Issue Resolution
+# PyTorch CUDA 13.0 Compatibility Issue Resolution
 
 ## Problem Statement
-Users were experiencing confusion regarding "PyTorch CUDA 13.0 support" in the Helical package.
+Users were experiencing issues with "PyTorch CUDA 13.0 support" in the Helical package.
 
 ## Root Cause Analysis
 
 ### Issue Identified
-1. **CUDA 13.0 does not exist** - This was the primary source of confusion
-   - The latest CUDA versions are in the 12.x series (12.1, 12.4, etc.)
-   - There is no CUDA 13.0 version released by NVIDIA
+1. **PyTorch 2.6.0 does not support CUDA 13.0**
+   - PyTorch 2.6.0 supports CUDA 12.1 and CUDA 12.4
+   - Users with CUDA 13.0 cannot use it with the current PyTorch version
 
-2. **Outdated Documentation**
-   - README showed example for torch 2.3, but the project uses torch 2.6.0
+2. **Lack of Documentation**
    - No clear explanation of supported CUDA versions
-   - mamba-ssm wheel installation instructions were outdated
-
-3. **Lack of Troubleshooting Resources**
-   - No guidance for users encountering CUDA-related issues
-   - No clear documentation on how to check CUDA versions
-   - Missing compatibility matrix
+   - Missing guidance for users with CUDA 13.0
+   - No troubleshooting resources for CUDA compatibility issues
 
 ## Solution Implemented
 
 ### 1. Updated README.md
 **Changes Made:**
 - Added explicit "CUDA Compatibility" section
-- Clarified that CUDA 13.0 does not exist
-- Documented supported CUDA versions (12.1, 12.4)
+- Clarified that PyTorch 2.6.0 supports CUDA 12.1 and 12.4
+- Documented that CUDA 13.0 is not yet supported by PyTorch 2.6.0
 - Updated mamba-ssm installation instructions for PyTorch 2.6.0
 - Changed example wheel from `cu12torch2.3` to `cu12torch2.5` (compatible with 2.6.0)
 - Added "Troubleshooting CUDA Issues" section with:
-  - Explanation of CUDA version confusion
+  - Guidance for CUDA 13.0 users (use CUDA 12.x or wait for PyTorch update)
   - Commands to check CUDA version (`nvcc --version`, `nvidia-smi`)
   - Python code to verify PyTorch CUDA compatibility
 
@@ -38,11 +33,12 @@ Users were experiencing confusion regarding "PyTorch CUDA 13.0 support" in the H
 **New File:** `docs/CUDA_COMPATIBILITY.md`
 
 This guide includes:
-- Overview of supported CUDA versions
+- Overview of supported CUDA versions (PyTorch 2.6.0 supports 12.1 and 12.4)
 - Detailed instructions for checking CUDA versions
 - PyTorch installation commands for specific CUDA versions
 - mamba-ssm wheel installation guide with Python version mapping
 - Troubleshooting section covering common issues:
+  - CUDA 13.0 compatibility (not yet supported, with workarounds)
   - CUDA out of memory
   - Insufficient driver version
   - No CUDA-capable device detected
@@ -70,7 +66,7 @@ Automated tests to verify:
 
 ### PyTorch 2.6.0 CUDA Support
 - **Supported CUDA versions:** 12.1, 12.4
-- **Not supported:** CUDA 13.0 (doesn't exist), older CUDA 11.x versions
+- **Not supported:** CUDA 13.0 (not yet supported by PyTorch 2.6.0), older CUDA 11.x versions
 
 ### mamba-ssm Compatibility
 - mamba-ssm 2.2.4 has wheels for various PyTorch versions
@@ -86,10 +82,11 @@ Automated tests to verify:
 ## Impact
 
 ### User Experience Improvements
-1. **Clarity:** Users now understand that CUDA 13.0 doesn't exist
-2. **Guidance:** Clear instructions for installing with correct CUDA versions
-3. **Troubleshooting:** Comprehensive guide for resolving CUDA issues
-4. **Validation:** Commands to verify their setup is correct
+1. **Clarity:** Users now understand PyTorch 2.6.0's CUDA support limitations
+2. **Guidance:** Clear instructions for installing with supported CUDA versions (12.1, 12.4)
+3. **CUDA 13.0 Support:** Documentation explains that CUDA 13.0 is not yet supported and provides workarounds
+4. **Troubleshooting:** Comprehensive guide for resolving CUDA issues
+5. **Validation:** Commands to verify their setup is correct
 
 ### Documentation Quality
 1. **Accuracy:** All CUDA version references are now correct
@@ -117,11 +114,14 @@ All documentation validation tests pass:
 
 ## Recommendations for Users
 
-### If You See "CUDA 13.0" References
-1. Check your actual CUDA version: `nvcc --version`
-2. You likely have CUDA 12.x (12.1, 12.4, etc.)
-3. Follow the updated installation instructions in README.md
-4. Refer to docs/CUDA_COMPATIBILITY.md for detailed guidance
+### If You Have CUDA 13.0
+1. Check your CUDA version: `nvcc --version`
+2. PyTorch 2.6.0 does not support CUDA 13.0 yet
+3. Options:
+   - Install and use CUDA 12.1 or 12.4 (multiple CUDA versions can coexist)
+   - Wait for a PyTorch version that supports CUDA 13.0
+4. Follow the updated installation instructions in README.md
+5. Refer to docs/CUDA_COMPATIBILITY.md for detailed guidance
 
 ### Installation Best Practices
 1. Install base helical first: `pip install helical`
@@ -132,8 +132,9 @@ All documentation validation tests pass:
 ## Future Considerations
 
 ### When PyTorch Updates
-- Monitor PyTorch releases for new CUDA support
-- Update documentation when PyTorch adds support for future CUDA versions
+- Monitor PyTorch releases for CUDA 13.0 support
+- Update package dependencies when PyTorch adds CUDA 13.0 support
+- Update documentation when PyTorch adds support for new CUDA versions
 - Maintain the compatibility matrix in CUDA_COMPATIBILITY.md
 
 ### When mamba-ssm Updates
@@ -143,11 +144,12 @@ All documentation validation tests pass:
 
 ## Conclusion
 
-The "CUDA 13.0 issue" has been resolved by:
-1. Clarifying that CUDA 13.0 does not exist
-2. Documenting actual supported CUDA versions (12.1, 12.4)
-3. Updating installation instructions for PyTorch 2.6.0
-4. Creating comprehensive troubleshooting resources
-5. Adding automated validation to prevent future documentation drift
+The PyTorch CUDA 13.0 compatibility issue has been addressed by:
+1. Clarifying that PyTorch 2.6.0 does not yet support CUDA 13.0
+2. Documenting supported CUDA versions (12.1, 12.4)
+3. Providing workarounds for CUDA 13.0 users (use CUDA 12.x or wait for PyTorch update)
+4. Updating installation instructions for PyTorch 2.6.0
+5. Creating comprehensive troubleshooting resources
+6. Adding automated validation to prevent future documentation drift
 
-Users can now confidently install and use Helical with the correct CUDA versions and have clear guidance when issues arise.
+Users can now understand the CUDA compatibility limitations and have clear guidance on how to proceed based on their CUDA version.

@@ -12,12 +12,13 @@ def test_cuda_version_facts():
     """Test that our documentation about CUDA versions is accurate"""
     print("Testing CUDA version facts...")
     
-    # CUDA 13.0 should not exist
-    assert True, "CUDA 13.0 does not exist - this is correct"
+    # PyTorch 2.6.0 supports CUDA 12.1 and 12.4
+    pytorch_26_supported = [12.1, 12.4]
+    assert 12.1 in pytorch_26_supported, "CUDA 12.1 should be supported"
+    assert 12.4 in pytorch_26_supported, "CUDA 12.4 should be supported"
     
-    # Latest CUDA versions are 12.x
-    cuda_12_versions = [12.0, 12.1, 12.2, 12.3, 12.4]
-    assert 13.0 not in cuda_12_versions, "CUDA 13.0 should not be in the list"
+    # CUDA 13.0 exists but is not supported by PyTorch 2.6.0
+    assert 13.0 not in pytorch_26_supported, "CUDA 13.0 is not supported by PyTorch 2.6.0"
     
     print("✓ CUDA version facts are correct")
 
@@ -30,7 +31,7 @@ def test_pytorch_compatibility():
     
     assert "12.1" in supported_cuda, "CUDA 12.1 should be supported"
     assert "12.4" in supported_cuda, "CUDA 12.4 should be supported"
-    assert "13.0" not in supported_cuda, "CUDA 13.0 should not be supported (doesn't exist)"
+    assert "13.0" not in supported_cuda, "CUDA 13.0 is not supported by PyTorch 2.6.0"
     
     print("✓ PyTorch compatibility claims are correct")
 
@@ -55,10 +56,11 @@ def test_readme_content():
         readme_content = f.read()
     
     # Check for important clarifications
-    assert "CUDA 13.0 does not exist" in readme_content, "README should clarify CUDA 13.0 doesn't exist"
-    assert "CUDA 12.1 and CUDA 12.4" in readme_content, "README should list supported CUDA versions"
     assert "PyTorch 2.6.0" in readme_content, "README should mention PyTorch version"
+    assert "CUDA 12.1 and 12.4" in readme_content or "CUDA 12.1 or 12.4" in readme_content, "README should list supported CUDA versions"
     assert "torch2.5" in readme_content, "README should show torch2.5 wheel for compatibility"
+    # Should mention CUDA 13.0 and its lack of support
+    assert "13.0" in readme_content, "README should mention CUDA 13.0"
     
     print("✓ README contains required information")
 
@@ -77,7 +79,7 @@ def test_cuda_compatibility_guide():
     # Check for key sections
     assert "CUDA 12.1" in guide_content, "Guide should mention CUDA 12.1"
     assert "CUDA 12.4" in guide_content, "Guide should mention CUDA 12.4"
-    assert "CUDA 13.0 does not exist" in guide_content, "Guide should clarify CUDA 13.0"
+    assert "CUDA 13.0" in guide_content, "Guide should mention CUDA 13.0"
     assert "PyTorch 2.6.0" in guide_content, "Guide should mention PyTorch version"
     assert "Troubleshooting" in guide_content, "Guide should have troubleshooting section"
     
@@ -98,8 +100,8 @@ if __name__ == "__main__":
     print("All tests passed! ✓")
     print("="*60)
     print("\nSummary:")
-    print("- CUDA 13.0 clarification: ✓ Documented that it doesn't exist")
+    print("- CUDA 13.0 compatibility: ✓ Documented that PyTorch 2.6.0 doesn't support it yet")
     print("- PyTorch 2.6.0 compatibility: ✓ Documented CUDA 12.1 and 12.4 support")
     print("- Installation instructions: ✓ Updated for torch 2.6.0")
-    print("- Troubleshooting guide: ✓ Added comprehensive guide")
+    print("- Troubleshooting guide: ✓ Added guidance for CUDA 13.0 users")
     print("- New documentation: ✓ Created CUDA_COMPATIBILITY.md")

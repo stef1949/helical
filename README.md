@@ -83,9 +83,10 @@ pip install .[mamba-ssm]
 ## Notes on the installation: 
 
 ### CUDA Compatibility
-- **Supported CUDA versions**: CUDA 12.1 and CUDA 12.4 (Note: CUDA 13.0 does not exist; the latest CUDA version is 12.x)
-- **PyTorch version**: This package uses PyTorch 2.6.0, which requires CUDA 12.1 or 12.4
-- Make sure your machine has GPU(s) and CUDA 12.x installed. This is required for the optional packages `mamba-ssm` and `causal-conv1d`
+- **Supported CUDA versions**: PyTorch 2.6.0 in this package supports CUDA 12.1 and CUDA 12.4
+- **PyTorch version**: This package uses PyTorch 2.6.0
+- **Note**: If you have CUDA 13.0, PyTorch 2.6.0 does not yet support it. You will need to use CUDA 12.1 or 12.4, or upgrade to a newer PyTorch version when CUDA 13.0 support becomes available
+- Make sure your machine has GPU(s) and a compatible CUDA version installed. This is required for the optional packages `mamba-ssm` and `causal-conv1d`
 
 ### Installing mamba-ssm (Optional)
 - The package `causal_conv1d` requires `torch` to be installed already. First install `helical` separately (without `[mamba-ssm]`) to install `torch`. Then install with `[mamba-ssm]` to add the optional packages.
@@ -105,9 +106,12 @@ pip install https://github.com/state-spaces/mamba/releases/download/v2.2.4/mamba
 
 ### Troubleshooting CUDA Issues
 
-**"CUDA 13.0" Error or Confusion:**
-- There is no CUDA 13.0. The latest CUDA versions are 12.1, 12.4, etc.
-- If you see references to "CUDA 13.0", this is likely a misunderstanding or typo
+**Using CUDA 13.0:**
+- PyTorch 2.6.0 does not support CUDA 13.0 yet
+- If you have CUDA 13.0 installed, you have two options:
+  1. Install and use CUDA 12.1 or 12.4 alongside CUDA 13.0 (multiple CUDA versions can coexist)
+  2. Wait for a PyTorch version that supports CUDA 13.0 and upgrade the package
+- Check PyTorch's official website for the latest CUDA support information
 - Check your CUDA version with: `nvcc --version` or `nvidia-smi`
 
 **Checking Your CUDA Version:**
