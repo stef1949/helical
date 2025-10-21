@@ -53,6 +53,8 @@ nav:
       - Model: ./models/evo_2.md
   - Helical Base Models: ./models/base_models.md
   - Fine-Tuning Heads: ./models/fine_tuning_heads.md
+  - Installation & Setup:
+    - CUDA Compatibility Guide: ./CUDA_COMPATIBILITY.md
   - Example Notebooks:
     - Quick-Start-Tutorial: ./notebooks/Quick-Start-Tutorial.ipynb
     - Helix-mRNA: ./notebooks/Helix-mRNA.ipynb

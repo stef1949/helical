@@ -81,13 +81,52 @@ pip install .[mamba-ssm]
 ```
 
 ## Notes on the installation: 
-- Make sure your machine has GPU(s) and Cuda installed. Currently this is a requirement for the packages mamba-ssm and causal-conv1d. 
-- The package `causal_conv1d` requires `torch` to be installed already. First installing `helical` separately (without `[mamba-ssm]`) will install `torch` for you. A second installation (with `[mamba-ssm]`), installs the packages correctly.
-- If you have problems installing `mamba-ssm`, you can install the package via the provided `.whl` files on their release page [here](https://github.com/state-spaces/mamba/releases/tag/v2.2.4). Choose the package according to your cuda, torch and python version:
+
+### CUDA Compatibility
+- **Supported CUDA versions**: CUDA 12.1 and CUDA 12.4 (Note: CUDA 13.0 does not exist; the latest CUDA version is 12.x)
+- **PyTorch version**: This package uses PyTorch 2.6.0, which requires CUDA 12.1 or 12.4
+- Make sure your machine has GPU(s) and CUDA 12.x installed. This is required for the optional packages `mamba-ssm` and `causal-conv1d`
+
+### Installing mamba-ssm (Optional)
+- The package `causal_conv1d` requires `torch` to be installed already. First install `helical` separately (without `[mamba-ssm]`) to install `torch`. Then install with `[mamba-ssm]` to add the optional packages.
+
+- If you have problems installing `mamba-ssm`, you can install the package via the provided `.whl` files on their release page [here](https://github.com/state-spaces/mamba/releases/tag/v2.2.4). Choose the package according to your CUDA, torch and python versions.
+
+**For PyTorch 2.6.0 with CUDA 12.x:**
+```bash
+# Example for Python 3.11, CUDA 12.x, PyTorch 2.5 (compatible with 2.6.0)
+# Note: Adjust the Python version (cp311) to match your Python installation
+pip install https://github.com/state-spaces/mamba/releases/download/v2.2.4/mamba_ssm-2.2.4+cu12torch2.5cxx11abiFALSE-cp311-cp311-linux_x86_64.whl
+
+# For Python 3.10, use cp310; for Python 3.12, use cp312
 ```
-pip install https://github.com/state-spaces/mamba/releases/download/v2.2.4/mamba_ssm-2.2.4+cu12torch2.3cxx11abiFALSE-cp311-cp311-linux_x86_64.whl
+
+- After installing the wheel, continue with `pip install .[mamba-ssm]` to also install the remaining `causal-conv1d` package.
+
+### Troubleshooting CUDA Issues
+
+**"CUDA 13.0" Error or Confusion:**
+- There is no CUDA 13.0. The latest CUDA versions are 12.1, 12.4, etc.
+- If you see references to "CUDA 13.0", this is likely a misunderstanding or typo
+- Check your CUDA version with: `nvcc --version` or `nvidia-smi`
+
+**Checking Your CUDA Version:**
+```bash
+# Check CUDA version
+nvcc --version
+
+# Check GPU driver and CUDA runtime
+nvidia-smi
 ```
-- Now continue with `pip install .[mamba-ssm]` to also install the remaining `causal-conv1d`.
+
+**PyTorch CUDA Compatibility:**
+```python
+# Verify PyTorch can see CUDA
+import torch
+print(f"PyTorch version: {torch.__version__}")
+print(f"CUDA available: {torch.cuda.is_available()}")
+print(f"CUDA version: {torch.version.cuda}")
+```
 
 ### Singularity (Optional)
 If you desire to run your code in a singularity file, you can use the [singularity.def](./singularity.def) file and build an apptainer with it:
